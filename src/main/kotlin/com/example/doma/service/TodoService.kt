@@ -5,6 +5,9 @@ import com.example.doma.entity.Todo
 import com.example.doma.form.TodoForm
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +28,10 @@ class TodoService(private val todoDao: TodoDao) {
   }
 
   fun update(todoForm: TodoForm): Int {
-    val currentTodo = todoForm.id?.let { findById(it) }
-    val todo = Todo(currentTodo?.id, todoForm.name)
+    val currentTodo = requireNotNull(todoForm.id?.let { findById(it) })
+    val updateTime = Date.from(
+      LocalDateTime.now().atZone(ZoneId.of("Asia/Tokyo")).toInstant())
+    val todo = Todo(currentTodo.id, todoForm.name, currentTodo.version, currentTodo.createTimestamp, updateTime)
     return requireNotNull(todoDao.update(todo).entity.id) {
       "更新に失敗しました。"
     }
