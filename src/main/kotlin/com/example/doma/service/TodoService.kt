@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service
 @RequiredArgsConstructor
 class TodoService(private val todoDao: TodoDao) {
   fun findAll(name: String?): List<Todo?>? {
-    return todoDao.selectAll(name)
+    return todoDao.findAll(name)
   }
 }

@@ -10,5 +10,5 @@ import org.seasar.doma.boot.ConfigAutowireable
 @Dao(config = MySQLConfig::class)
 interface TodoDao {
   @Select
-  fun selectAll(name: String?): List<Todo>
+  fun findAll(name: String?): List<Todo>
 }
