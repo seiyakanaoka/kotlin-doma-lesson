@@ -14,10 +14,10 @@ import java.util.Date
 data class Todo (
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  val id: Int,
+  val id: Int? = null,
   val name: String,
   @Version
-  val version: Int? = null,
+  val version: Int? = 1,
   val createTimestamp: Date? = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()),
   val updateTimestamp: Date? = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
 )
