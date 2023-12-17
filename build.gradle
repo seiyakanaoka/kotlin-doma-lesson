@@ -7,8 +7,6 @@ plugins {
 	id 'org.jetbrains.kotlin.plugin.spring' version '1.9.20'
 }
 
-apply plugin: 'java'
-apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 
 // コンパイルより前にSQLファイルを出力先ディレクトリにコピーするために依存関係を逆転する
@@ -30,7 +28,6 @@ java {
 
 repositories {
 	mavenCentral()
-	maven {url 'https://oss.sonatype.org/content/repositories/snapshots/'}
 }
 
 dependencies {
@@ -45,7 +42,7 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	kapt "org.seasar.doma:doma-processor:2.53.1"
 	implementation "org.seasar.doma.boot:doma-spring-boot-starter:1.7.0"
-	implementation "org.seasar.doma:doma-kotlin:2.53.1"
+//	implementation "org.seasar.doma:doma-kotlin:2.53.1"
 }
 
 tasks.withType(KotlinCompile) {

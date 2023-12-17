@@ -2,16 +2,10 @@ package com.example.doma.controller
 
 import com.example.doma.entity.Todo
 import com.example.doma.form.TodoForm
+import com.example.doma.form.TodoForms
 import com.example.doma.service.TodoService
 import lombok.RequiredArgsConstructor
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequiredArgsConstructor
@@ -27,11 +21,11 @@ class TodoController(private val todoService: TodoService) {
   }
 
   @PostMapping("/todo")
-  fun post(@RequestBody todoForm: TodoForm): Int {
-    return todoService.post(todoForm)
+  fun insert(@RequestBody todoForm: TodoForm): Int {
+    return todoService.insert(todoForm)
   }
 
-  @PutMapping("/todo/{id}")
+  @PutMapping("/todo")
   fun update(@RequestBody todoForm: TodoForm): Int {
     return todoService.update(todoForm)
   }
@@ -39,5 +33,20 @@ class TodoController(private val todoService: TodoService) {
   @DeleteMapping("/todo/{id}")
   fun delete(@PathVariable id: Int): Unit {
     todoService.delete(id)
+  }
+
+  @PostMapping("/todos")
+  fun batchInsert(@RequestBody todoForms: TodoForms): List<Int> {
+    return todoService.batchInsert(todoForms)
+  }
+
+  @PutMapping("/todos")
+  fun batchUpdate(@RequestBody todoForms: TodoForms): List<Int> {
+    return todoService.batchUpdate(todoForms)
+  }
+
+  @DeleteMapping("/todos")
+  fun delete(@RequestBody todoForms: TodoForms): Unit {
+    todoService.batchDelete(todoForms)
   }
 }
