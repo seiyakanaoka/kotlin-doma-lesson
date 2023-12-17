@@ -1,5 +1,61 @@
 # Kotlin Springboot（Gradle - Groovy）とDoma2の勉強用リポジトリ
 
+## 環境構築手順（intellij IDEAを使用する想定）
+
+### build.gradleの場合
+
+#### intellijの設定
+1. [こちら](https://doma.readthedocs.io/en/2.19.3/getting-started-idea/#id18)を参考に、inteliijの設定を行う
+※「Generated Sources Root」という設定はしなかった
+
+#### build.gradleの設定
+1. 「apply plugin: 'kotlin-kapt'」を、plugins直下に記載する
+2. buildファイルにSQLファイルがコピーされるように、以下のコードを、上記の設定の直下に記載する
+```
+// コンパイルより前にSQLファイルを出力先ディレクトリにコピーするために依存関係を逆転する
+compileJava.dependsOn processResources
+
+// SQLファイルなどリソースファイルの出力先ディレクトリをkaptに伝える
+kapt {
+	arguments {
+		arg("doma.resources.dir", processResources.destinationDir)
+	}
+}
+```
+3. domaの依存関係を追加する
+```
+...
+kapt "org.seasar.doma:doma-processor:2.53.1"
+implementation "org.seasar.doma.boot:doma-spring-boot-starter:1.7.0"
+implementation "org.seasar.doma:doma-kotlin:2.53.1" // <= これがなくても動いた（理由は不明）
+```
+
+### build.gradle.ktsの場合
+build.gradleの設定で、SQLファイルのコピーの設定方法が違うだけ
+```
+// コンパイルより前にSQLファイルを出力先ディレクトリにコピーするために依存関係を逆転する
+tasks.compileJava {
+	dependsOn("processResources")
+}
+
+val compileKotlin: KotlinCompile by tasks
+
+// SQLファイルなどリソースファイルの出力先ディレクトリをkaptに伝える
+kapt {
+	arguments {
+		arg("doma.resources.dir", tasks.getByName<ProcessResources>("processResources").destinationDir)
+	}
+}
+
+tasks.register("copyDomaResources",Sync::class){
+	from("src/main/resources")
+	into(compileKotlin.destinationDirectory)
+	include("doma.compile.config")
+	include("META-INF/**/*.sql")
+	include("META-INF/**/*.script")
+}
+```
+
 ## 勉強メモ
 
 ### エンティティクラス
