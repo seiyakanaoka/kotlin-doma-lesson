@@ -1,6 +1,6 @@
 SELECT
     *
 FROM
-    Todo
+    todo
 WHERE
     id = /* id */'0'
