@@ -1,6 +1,6 @@
-create database if not exists KotlinTodo;
+create database if not exists db;
 
-use Todo;
+use db;
 
 create table if not exists todo (
   id int auto_increment not null primary key comment 'ユーザーID',
