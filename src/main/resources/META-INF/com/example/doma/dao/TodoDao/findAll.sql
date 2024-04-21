@@ -1,7 +1,7 @@
 SELECT
     *
 FROM
-    Todo
+   todo
 WHERE
     name like /* @infix(name) */'smith'
 ;
