@@ -1,6 +1,6 @@
 SELECT
     *
 FROM
-    Todo
+    todo
 WHERE
     id IN /* ids */(1, 2, 3)
